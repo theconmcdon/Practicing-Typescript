@@ -2,18 +2,17 @@ let newDie: HTMLElement = document.getElementById('newDie') as HTMLElement;
 let rollDice: HTMLElement = document.getElementById('rollDice') as HTMLElement;
 let sumDice: HTMLElement = document.getElementById('sumDice') as HTMLElement;
 let container: HTMLElement = document.getElementById('container') as HTMLElement;
-let dice: any[] = [];
-let value: number = Math.floor(Math.random() * 6 + 1);
+let dice: Die[] = [];
 //////////////////////////////////////////////////////////////////
 newDie.addEventListener('click', () => {
-    let die = new Die(value);
+    let die = new Die();
     dice.push(die);
 });
 //////////////////////////////////////////////////////////////////
 rollDice.addEventListener('click', () => {
     let i: number = 0;
     for (i = 0; i < dice.length; i++) {
-        dice[i].roll(value);
+        dice[i].roll();
     };
 });
 //////////////////////////////////////////////////////////////////
@@ -27,20 +26,19 @@ sumDice.addEventListener('click', () => {
 });
 //////////////////////////////////////////////////////////////////
 class Die {
-    value: number = Math.floor(Math.random() * 6 + 1);
+    value!: number;
     div: HTMLElement;
-    constructor(value: number) {
+    constructor() {
         this.div = document.createElement('div');
         this.div.classList.add('dice');
-        this.roll(value);
+        this.roll();
         container.appendChild(this.div);
         /////////////////////////////////////////////////// //////
-        this.div.addEventListener('click', () => { this.roll(value) });
+        this.div.addEventListener('click', () => { this.roll() });
         //////////////////////////////////////////////////////////
         this.div.addEventListener('dblclick', () => {
             let deleter = 0;
             dice.forEach((die, activate) => {
-
                 if (this.value == die.value) {
                     deleter = activate;
                 };
@@ -51,11 +49,10 @@ class Die {
     };
     //////////////////////////////////////////////////////////////
     
-    roll(value: number) {
-        let x = value;
-        this.value = x;
-        let y = this.value;
-        let z = y.toString();
-        this.div.textContent = z;
+    roll() {;
+        this.value = Math.floor(Math.random() * 6 + 1);
+        let x = this.value;
+        let y = x.toString();
+        this.div.textContent = y;
     };
 };
